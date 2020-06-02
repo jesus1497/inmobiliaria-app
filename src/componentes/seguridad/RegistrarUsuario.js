@@ -64,10 +64,10 @@ class RegistrarUsuario extends Component {
     registrarUsuario = e => {
         e.preventDefault();//previene el refresh en la pagina
         console.log('Imprimir objeto usuario del state', this.state.usuario);
-        const { usuario, firebase } = this.state;
-        
-        firebase.db.collection("Users")
-        .add(usuario)
+        /*
+        this.state.firebase.db.collection("Users")
+        .add(this.state.usuario)
+        .get()
         .then(usuarioAfter => {
             console.log('Esta insercion fue un exito', usuarioAfter);
             this.setState({
@@ -76,7 +76,7 @@ class RegistrarUsuario extends Component {
         })
         .catch(error => {
             console.log('Error!', error);
-        })
+        })*/
     }
 
     render() {

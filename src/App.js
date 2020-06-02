@@ -4,10 +4,11 @@ import Grid from '@material-ui/core/Grid';
 import './App.css';
 import ListaInmuebles from './componentes/vistas/ListaInmuebles';
 import RegistrarUsuario from './componentes/seguridad/RegistrarUsuario';
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles"; 
-import theme from './theme/theme';
 import AppNavbar from './componentes/layout/AppNavbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles"; 
+import theme from './theme/theme';
+
 
 class App extends Component {
 
