@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Avatar, Typography, Grid, TextField, Button } from '@material-ui/core';
-import LockOutLineIcon from '@material-ui/icons/LockOutlined';
+import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import { compose } from 'recompose';
 import { consumerFirebase } from '../../server';
 
@@ -66,17 +66,38 @@ class RegistrarUsuario extends Component {
         console.log('Imprimir objeto usuario del state', this.state.usuario);
         const { usuario, firebase } = this.state;
         
-        firebase.db.collection("Users")
-        .add(usuario)
-        .then(usuarioAfter => {
-            console.log('Esta insercion fue un exito', usuarioAfter);
-            this.setState({
-                usuario: usuarioInicial
+        firebase.auth
+        .createUserWithEmailAndPassword(
+            usuario.email,
+            usuario.password
+        )
+        .then(auth => {
+            const usuarioDB = {
+                usuarioid: auth.user.uid,
+                email: usuario.email,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido
+            }
+
+            firebase.db
+            .collection("Users")
+            .add(usuarioDB)
+            .then(usuarioAfter => {
+                console.log('Esta insercion fue un exito', usuarioAfter);
+                /*this.setState({
+                    usuario: usuarioInicial
+                })*/
+                this.props.history.push("/");
+            })
+            .catch(error => {
+                console.log('Error!', error);
             })
         })
         .catch(error => {
-            console.log('Error!', error);
+            console.log(error);
         })
+
+        
     }
 
     render() {
@@ -84,7 +105,7 @@ class RegistrarUsuario extends Component {
             <Container maxWidth="md">
                 <div style={style.paper}>
                     <Avatar style={style.avatar}>
-                        <LockOutLineIcon />
+                        <LockOutlineIcon />
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Registre su cuenta

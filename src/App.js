@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import './App.css';
 import ListaInmuebles from './componentes/vistas/ListaInmuebles';
 import RegistrarUsuario from './componentes/seguridad/RegistrarUsuario';
+import Login from './componentes/seguridad/Login';
 import AppNavbar from './componentes/layout/AppNavbar';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles"; 
@@ -22,6 +23,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={ListaInmuebles}></Route>
               <Route path="/auth/registrarUsuario" exact component={RegistrarUsuario}></Route>
+              <Route path="/auth/login" exact component={Login}></Route>
             </Switch>
           </Grid>
           
