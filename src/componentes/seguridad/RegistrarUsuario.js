@@ -3,6 +3,9 @@ import { Container, Avatar, Typography, Grid, TextField, Button } from '@materia
 import LockOutlineIcon from '@material-ui/icons/LockOutlined';
 import { compose } from 'recompose';
 import { consumerFirebase } from '../../server';
+import { crearUsuario } from '../../sesion/actions/sesionAction';
+import { openMensajePantalla } from '../../sesion/actions/snackbarAction';
+import { StateContext } from '../../sesion/store';
 
 const style = {
     paper: {
@@ -25,14 +28,15 @@ const style = {
     }
 }
 
-const usuarioInicial = {
+/*const usuarioInicial = {
     nombre: '',
     apellido: '',
     email: '',
     password: ''
-}
+}*/
 
 class RegistrarUsuario extends Component {
+    static contextType = StateContext;
     state = {   
         firebase: null,
         usuario: {
@@ -61,8 +65,22 @@ class RegistrarUsuario extends Component {
         })
     }
 
-    registrarUsuario = e => {
+    registrarUsuario = async e => {
         e.preventDefault();//previene el refresh en la pagina
+        const [{sesion}, dispatch] = this.context;
+        const {firebase, usuario} = this.state;
+
+        let callback = await crearUsuario(dispatch, firebase, usuario)
+        if(callback.status){
+            this.props.history.push("/")
+        }else{
+            openMensajePantalla(dispatch, {
+                open: true,
+                mensaje: callback.mensaje.message
+            })
+        }
+
+        /*
         console.log('Imprimir objeto usuario del state', this.state.usuario);
         const { usuario, firebase } = this.state;
         
@@ -84,9 +102,6 @@ class RegistrarUsuario extends Component {
             .add(usuarioDB)
             .then(usuarioAfter => {
                 console.log('Esta insercion fue un exito', usuarioAfter);
-                /*this.setState({
-                    usuario: usuarioInicial
-                })*/
                 this.props.history.push("/");
             })
             .catch(error => {
@@ -96,7 +111,7 @@ class RegistrarUsuario extends Component {
         .catch(error => {
             console.log(error);
         })
-
+        */
         
     }
 
